@@ -1,0 +1,91 @@
+HIGHWATCH AI — EMPLOYEE HANDBOOK
+Version 3.0 | Effective Date: January 1, 2025
+================================================================
+
+1. WELCOME TO HIGHWATCH AI
+----------------------------
+Welcome to the Highwatch AI family. This handbook outlines the policies,
+procedures, and expectations for all employees. Please read it carefully
+and reach out to HR at hr@highwatch.ai if you have any questions.
+
+2. WORKING HOURS & ATTENDANCE
+-------------------------------
+- Standard working hours: 9:00 AM – 6:00 PM (Monday to Friday)
+- Core hours (must be available): 11:00 AM – 4:00 PM IST
+- Employees are expected to log in via the HRMS portal daily
+- Absences must be reported to your manager before 9:30 AM
+- More than 3 unexcused absences in a month will result in a written warning
+
+3. LEAVE POLICY
+----------------
+Annual Leave:
+- All full-time employees receive 18 days of annual leave per calendar year
+- Leave must be applied 3 days in advance via the HRMS portal
+- Maximum carry-forward: 5 days (expires March 31 of the following year)
+- Leave cannot be taken during project go-live periods without manager approval
+
+Sick Leave:
+- 12 days of paid sick leave per calendar year
+- Medical certificate required for illness exceeding 2 consecutive days
+- Sick leave does not carry forward to the next year
+
+Maternity Leave:
+- 26 weeks of paid maternity leave as per Indian law
+- Must be applied at least 4 weeks before expected due date
+- HR must be notified immediately upon confirmation of pregnancy
+
+Paternity Leave:
+- 10 days of paid paternity leave
+- Must be taken within 3 months of the child's birth
+
+4. CODE OF CONDUCT
+-------------------
+All employees are expected to:
+- Treat all colleagues with dignity and respect
+- Maintain confidentiality of client and company data at all times
+- Not engage in any form of harassment, discrimination, or bullying
+- Dress professionally for client meetings (formal or smart casual)
+- Not engage in outside employment that conflicts with company interests
+
+5. PERFORMANCE REVIEWS
+-----------------------
+- Reviews are conducted bi-annually: June and December
+- Ratings: Exceptional / Meets Expectations / Needs Improvement
+- Salary revisions are tied to performance ratings
+- Employees rated "Needs Improvement" for two consecutive cycles may face
+  performance improvement plans (PIP)
+
+6. EXPENSE REIMBURSEMENT
+-------------------------
+- All business expenses must be pre-approved by your manager
+- Submit expense claims within 30 days of incurring the expense
+- Receipts are mandatory for all claims above Rs. 200
+- Reimbursements are processed in the next payroll cycle
+- Travel expenses must follow the travel policy outlined in Section 9
+
+7. REMOTE WORK POLICY
+----------------------
+- Employees may work remotely up to 2 days per week with manager approval
+- Full-time remote work requires VP-level approval
+- Remote employees must be reachable during core hours
+- Company equipment must be secured and not used for personal projects
+
+8. RESIGNATION AND EXIT
+------------------------
+- Notice period: 30 days for junior roles, 60 days for senior/manager roles
+- Serving notice is mandatory; buyout requires HR and manager approval
+- Exit interview is mandatory before final settlement
+- All company assets must be returned on or before last working day
+- Full and final settlement is processed within 45 days of last working day
+
+9. GRIEVANCE REDRESSAL
+-----------------------
+- Raise grievances at grievances@highwatch.ai
+- All grievances are reviewed within 5 business days
+- Employees can escalate unresolved issues to hr-head@highwatch.ai
+- Anonymous reporting available via the internal ethics hotline
+
+================================================================
+Document Owner: Human Resources Department
+Last Updated: February 10, 2025
+Next Review: January 2026

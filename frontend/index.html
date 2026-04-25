@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Highwatch AI | Personal RAG</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon"></div>
+                <h1>Highwatch AI</h1>
+            </div>
+            <div class="status-badge" id="auth-status">
+                <span class="dot red"></span> Not Connected
+            </div>
+        </header>
+
+        <div class="main-content">
+            <!-- Sidebar / Controls -->
+            <aside class="controls-panel">
+                <div class="card">
+                    <h2>1. Connect Google Drive</h2>
+                    <p>Authenticate with your Google account to grant access to your documents.</p>
+                    <button id="btn-connect" class="btn primary">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M21.2 7.2l-3.4-3.4c-.8-.8-2-.8-2.8 0L3 16l-1 5 5-1 12.2-12c.8-.8.8-2 0-2.8z"></path></svg>
+                        Connect Drive
+                    </button>
+                </div>
+
+                <div class="card">
+                    <h2>2. Sync Documents</h2>
+                    <p>Fetch PDFs, Docs, and TXTs from your Drive and build the RAG index.</p>
+                    <button id="btn-sync" class="btn secondary" disabled>
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                        Sync Now
+                    </button>
+                    <div id="sync-status" class="status-text"></div>
+                </div>
+
+                <div class="card metrics" id="index-metrics">
+                    <h3>Index Stats</h3>
+                    <div class="metric-row">
+                        <span>Status:</span>
+                        <strong id="metric-status">Empty</strong>
+                    </div>
+                    <div class="metric-row">
+                        <span>Docs Indexed:</span>
+                        <strong id="metric-docs">0</strong>
+                    </div>
+                    <div class="metric-row">
+                        <span>Total Chunks:</span>
+                        <strong id="metric-chunks">0</strong>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Chat / RAG Interface -->
+            <main class="chat-panel card">
+                <h2>Ask your Documents</h2>
+                <div class="chat-history" id="chat-history">
+                    <div class="message system">
+                        <div class="message-content">
+                            Hello! I am your AI assistant. Connect your Drive and sync your documents, then ask me anything about them!
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="e.g. What is our refund policy?" disabled>
+                    <button id="btn-send" class="btn primary" disabled>
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>

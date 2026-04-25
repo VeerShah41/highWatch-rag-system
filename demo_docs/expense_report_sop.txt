@@ -1,0 +1,96 @@
+HIGHWATCH AI — EXPENSE REPORT & REIMBURSEMENT SOP
+Version 2.0 | Effective Date: January 2025
+================================================================
+
+1. PURPOSE
+-----------
+This SOP provides step-by-step instructions for employees to submit
+business expense claims and for managers to review and approve them.
+
+2. WHAT CAN BE CLAIMED
+------------------------
+Eligible expenses include:
+- Business travel (flights, trains, taxis, local transport)
+- Client entertainment (meals, events) — up to Rs. 3,000 per person
+- Conference/event registration fees
+- Business software or tools (pre-approved only)
+- Office supplies purchased for business use
+- Internet reimbursement for remote employees: up to Rs. 1,500/month
+
+NOT eligible:
+- Personal meals (unless during client entertainment)
+- Alcohol (unless explicitly client-approved and budgeted)
+- Luxury or business-class travel (unless approved by VP)
+- Gym memberships or personal subscriptions
+- Traffic fines or parking violations
+
+3. STEP-BY-STEP: HOW TO SUBMIT AN EXPENSE CLAIM
+-------------------------------------------------
+Step 1: Collect all receipts at the time of purchase.
+        - Digital receipts (screenshots, email PDFs) are accepted
+        - Receipts must be in the employee's name or the company name
+
+Step 2: Log into the HRMS portal at hrms.highwatch.ai
+
+Step 3: Navigate to Finance → Expense Claims → New Claim
+
+Step 4: Fill in the following fields:
+        - Date of expense
+        - Expense category (travel, meals, software, etc.)
+        - Amount (in INR)
+        - Business purpose (brief description)
+        - Project/client code if applicable
+        - Attach receipt (PDF, JPG, or PNG — max 5MB per file)
+
+Step 5: Submit the claim for manager approval.
+
+Step 6: Manager has 5 business days to approve or reject.
+        - Rejected claims must include a reason in writing
+
+Step 7: Approved claims are forwarded to Finance automatically.
+
+Step 8: Reimbursement is processed in the next payroll cycle.
+        - Claims submitted before the 20th of the month are processed
+          in the same month's payroll
+        - Claims after the 20th roll over to the next month
+
+4. TRAVEL EXPENSE GUIDELINES
+------------------------------
+Domestic Travel:
+- Economy class for flights under 3 hours
+- Business class requires VP approval
+- Hotel: up to Rs. 5,000/night in Tier-1 cities; Rs. 3,500 in Tier-2
+- Daily allowance (DA): Rs. 800/day for meals and incidentals
+- Book travel through the company travel portal (travel.highwatch.ai)
+
+International Travel:
+- Requires director-level approval minimum
+- Business class for flights over 8 hours
+- Hotel: up to USD 200/night
+- Submit claims in foreign currency; Finance will convert at RBI rate
+
+5. ADVANCE REQUESTS
+--------------------
+- For expenses over Rs. 10,000, you may request an advance
+- Submit advance request 5 business days before travel
+- Unused advances must be returned within 3 days of return
+- Advance settlement form must be submitted with receipts
+
+6. MANAGER APPROVAL GUIDELINES
+--------------------------------
+Managers must:
+- Review all claims for policy compliance
+- Approve or reject within 5 business days
+- Add comments for any rejected line items
+- Escalate unusual claims over Rs. 20,000 to Finance Head
+
+7. CONTACTS
+------------
+For expense queries: finance@highwatch.ai
+HRMS technical issues: it-helpdesk@highwatch.ai
+Travel booking: travel@highwatch.ai
+
+================================================================
+Document Owner: Finance Department
+Last Updated: January 5, 2025
+Next Review: July 2025

@@ -1,0 +1,68 @@
+HIGHWATCH AI — COMPANY REFUND AND RETURNS POLICY
+Version 2.1 | Effective Date: January 1, 2025
+================================================================
+
+1. OVERVIEW
+-----------
+This document outlines the official refund and return policy for all products
+and services offered by Highwatch AI. All customer-facing teams must adhere
+to these guidelines when handling refund requests.
+
+2. ELIGIBILITY FOR REFUNDS
+---------------------------
+Customers are eligible for a full refund under the following conditions:
+- The refund request is submitted within 30 days of the purchase date.
+- The product or service has not been fully used or consumed.
+- A valid proof of purchase (invoice or order ID) is provided.
+- The issue is due to a product defect or service failure on our part.
+
+3. NON-REFUNDABLE ITEMS
+------------------------
+The following are NOT eligible for refunds:
+- Custom enterprise solutions that have been delivered and accepted.
+- Annual subscription plans after 14 days of activation.
+- API credits that have been consumed.
+- Services rendered by third-party partners.
+
+4. DAMAGED OR DEFECTIVE PRODUCTS
+----------------------------------
+If a customer receives a damaged or defective product:
+- They must report the issue within 7 days of receiving the product.
+- A photo or video evidence of the damage must be submitted via email to
+  support@highwatch.ai with subject line: "Damaged Item - Order #[ORDER_ID]"
+- Upon verification, a full replacement or refund will be issued within 5-7
+  business days.
+
+5. REFUND PROCESS
+------------------
+Step 1: Customer submits refund request at support@highwatch.ai
+Step 2: Support team acknowledges within 24 hours (business days)
+Step 3: Investigation and verification: 2-3 business days
+Step 4: Approval/Rejection communicated via email
+Step 5: If approved, refund is credited within 5-10 business days
+
+6. PARTIAL REFUNDS
+-------------------
+Partial refunds may be issued in the following cases:
+- Monthly subscription cancelled mid-cycle (prorated refund for unused days)
+- Service partially delivered due to technical issues on our end
+- Promotional items where only part of the order is returned
+
+7. ESCALATION PROCESS
+----------------------
+If a customer disputes a refund decision:
+- They may escalate to refund-escalation@highwatch.ai
+- A senior team member will review within 3 business days
+- Final decision is communicated in writing
+
+8. CONTACT INFORMATION
+-----------------------
+Refund Team Email: support@highwatch.ai
+Escalation Email: refund-escalation@highwatch.ai
+Working Hours: Monday–Friday, 9 AM–6 PM IST
+Response SLA: 24 hours for initial acknowledgement
+
+================================================================
+Document Owner: Customer Success Team
+Last Updated: March 15, 2025
+Next Review: January 2026

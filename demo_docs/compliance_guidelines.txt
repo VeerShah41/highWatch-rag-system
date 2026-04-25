@@ -1,0 +1,99 @@
+HIGHWATCH AI — DATA COMPLIANCE AND PRIVACY GUIDELINES
+Version 1.2 | Classification: Internal | Effective: January 2025
+================================================================
+
+1. PURPOSE
+-----------
+This document outlines Highwatch AI's compliance obligations and internal
+data privacy guidelines in accordance with applicable laws including India's
+Digital Personal Data Protection (DPDP) Act 2023 and GDPR where applicable.
+
+2. DATA WE COLLECT
+-------------------
+Customer Data:
+- Name, email, phone number (for account creation)
+- Payment information (processed via PCI-DSS compliant gateways only)
+- Usage logs and interaction history with our AI systems
+
+Employee Data:
+- Full name, date of birth, address, emergency contacts
+- Bank account details for payroll
+- Performance reviews and disciplinary records
+- Health-related information (for insurance and leave management)
+
+3. HOW WE USE DATA
+-------------------
+- Customer data is used ONLY to deliver contracted services
+- Data is never sold to third parties
+- Analytics are performed on anonymized/aggregated data only
+- AI model training uses only consented and anonymized datasets
+
+4. DATA RETENTION POLICY
+-------------------------
+- Customer account data: Retained for 3 years after account closure
+- Transaction records: 7 years (as per financial regulations)
+- Employee records: 7 years after employment ends
+- System logs: 90 days rolling
+- Backup data: Encrypted, retained for 1 year
+
+5. DATA SUBJECT RIGHTS
+-----------------------
+All individuals whose data we hold have the right to:
+- Access their personal data (respond within 30 days)
+- Correct inaccurate data (respond within 15 days)
+- Delete their data ("right to erasure") — applicable where legally permissible
+- Withdraw consent for processing
+- Port their data to another service provider
+
+To exercise rights, contact: privacy@highwatch.ai
+
+6. DATA BREACH RESPONSE PROCEDURE
+-----------------------------------
+In the event of a data breach:
+Step 1: Identify and contain the breach immediately
+Step 2: Notify CISO and Legal within 1 hour of discovery
+Step 3: Assess the scope: what data, how many individuals, what risk?
+Step 4: Notify affected individuals within 72 hours if high-risk breach
+Step 5: Report to regulatory authority (as required by DPDP Act) within 72 hours
+Step 6: Document the incident in the breach register
+Step 7: Conduct root cause analysis and implement preventive measures
+
+7. THIRD-PARTY DATA SHARING
+-----------------------------
+We may share data with:
+- Cloud providers (AWS, GCP) — under Data Processing Agreements (DPAs)
+- Payment gateways (Razorpay, Stripe) — PCI-DSS compliant
+- HR software vendors — under strict confidentiality agreements
+
+We do NOT share data with:
+- Advertising networks
+- Data brokers
+- Government entities (except when legally compelled, with legal review)
+
+8. EMPLOYEE COMPLIANCE OBLIGATIONS
+------------------------------------
+All employees must:
+- Complete annual data privacy training (mandatory, tracked in HRMS)
+- Report any suspected data breach immediately
+- Not access customer data beyond their job function
+- Sign the Data Confidentiality Agreement on joining
+- Violations may result in disciplinary action up to and including termination
+
+9. COMPLIANCE CONTACTS
+-----------------------
+Data Protection Officer (DPO): dpo@highwatch.ai
+Privacy Queries: privacy@highwatch.ai
+Legal and Compliance: legal@highwatch.ai
+Security Incidents: it-security@highwatch.ai
+
+10. AUDIT AND REVIEW
+---------------------
+- Internal compliance audits are conducted every 6 months
+- External audits by certified auditors are conducted annually
+- Policy violations are logged and reviewed by the Compliance Committee
+- This document is reviewed and updated annually or upon regulatory change
+
+================================================================
+Document Owner: Legal & Compliance Team
+Last Updated: January 20, 2025
+Next Mandatory Review: January 2026
