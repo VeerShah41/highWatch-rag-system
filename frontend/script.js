@@ -12,7 +12,57 @@ const els = {
     mStatus: document.getElementById("metric-status"),
     mDocs: document.getElementById("metric-docs"),
     mChunks: document.getElementById("metric-chunks"),
+    btnMic: document.getElementById("btn-mic"),
+    btnSpeaker: document.getElementById("btn-speaker"),
+    iconSpeakerOn: document.querySelector(".icon-speaker-on"),
+    iconSpeakerOff: document.querySelector(".icon-speaker-off"),
+    quickPrompts: document.getElementById("quick-prompts"),
+    promptBtns: document.querySelectorAll(".prompt-btn"),
 };
+
+// ── Voice State ──
+let voiceEnabled = true;
+let isRecording = false;
+let recognition = null;
+let availableVoices = [];
+
+// Load voices
+window.speechSynthesis.onvoiceschanged = () => {
+    availableVoices = window.speechSynthesis.getVoices();
+};
+
+// Initialize Speech Recognition if available
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        els.chatInput.value = transcript;
+        // Don't auto send, let them review
+        // sendQuestion(); 
+    };
+
+    recognition.onend = () => {
+        isRecording = false;
+        els.btnMic.classList.remove("recording");
+        els.chatInput.placeholder = "e.g. What is our refund policy?";
+        els.chatInput.closest('.chat-input-wrapper').classList.remove("recording-active");
+    };
+    
+    recognition.onerror = (e) => {
+        console.error("Speech recognition error:", e);
+        isRecording = false;
+        els.btnMic.classList.remove("recording");
+        els.chatInput.placeholder = "e.g. What is our refund policy?";
+        els.chatInput.closest('.chat-input-wrapper').classList.remove("recording-active");
+    };
+} else {
+    els.btnMic.style.display = "none"; // Hide if unsupported
+}
 
 // ── Check Status on Load ──
 async function checkStatus() {
@@ -23,7 +73,7 @@ async function checkStatus() {
         // Update Auth
         if (data.drive_connected) {
             els.authDot.className = "dot green";
-            els.authBadge.innerHTML = `<span class="dot green"></span> Connected`;
+            els.authBadge.innerHTML = `<span class="dot green"></span> Connected as ${data.user_email || 'Drive'}`;
             els.btnConnect.innerHTML = "Reconnect Drive";
             els.btnConnect.classList.replace("primary", "secondary");
             els.btnSync.disabled = false;
@@ -36,9 +86,12 @@ async function checkStatus() {
             els.mDocs.textContent = data.unique_documents;
             els.mChunks.textContent = data.total_chunks_indexed;
             
-            // Enable chat
+            // Enable chat and Layman features
             els.chatInput.disabled = false;
             els.btnSend.disabled = false;
+            els.btnMic.disabled = false;
+            els.btnSpeaker.disabled = false;
+            els.quickPrompts.style.display = "flex";
         }
     } catch (e) {
         console.error("Status check failed", e);
@@ -72,10 +125,78 @@ els.btnSync.addEventListener("click", async () => {
     }
 });
 
+// Quick Prompts
+els.promptBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+        els.chatInput.value = btn.textContent;
+        sendQuestion();
+    });
+});
+
+// Mic Toggle
+els.btnMic.addEventListener("click", () => {
+    if (!recognition) return;
+    if (isRecording) {
+        recognition.stop();
+    } else {
+        recognition.start();
+        isRecording = true;
+        els.btnMic.classList.add("recording");
+        els.chatInput.placeholder = "Listening... Speak now";
+        els.chatInput.closest('.chat-input-wrapper').classList.add("recording-active");
+    }
+});
+
+// Speaker Toggle (Global mute/unmute)
+els.btnSpeaker.addEventListener("click", () => {
+    voiceEnabled = !voiceEnabled;
+    if (voiceEnabled) {
+        els.iconSpeakerOn.style.display = "block";
+        els.iconSpeakerOff.style.display = "none";
+    } else {
+        els.iconSpeakerOn.style.display = "none";
+        els.iconSpeakerOff.style.display = "block";
+        window.speechSynthesis.cancel(); // Stop current speech if any
+    }
+});
+
 els.btnSend.addEventListener("click", sendQuestion);
 els.chatInput.addEventListener("keypress", (e) => {
     if (e.key === "Enter") sendQuestion();
 });
+
+// Text to Speech (Female Voice)
+window.speakText = function(text) {
+    if (!voiceEnabled || !window.speechSynthesis) return;
+    window.speechSynthesis.cancel();
+    
+    // Clean markdown before speaking
+    const cleanText = text.replace(/[*#_`]/g, '');
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = "en-US";
+    utterance.rate = 1.0;
+
+    // Load voices if empty
+    if (availableVoices.length === 0) {
+        availableVoices = window.speechSynthesis.getVoices();
+    }
+
+    // Find female voice
+    const femaleVoice = availableVoices.find(v => 
+        v.name.includes('Female') || 
+        v.name.includes('Samantha') || 
+        v.name.includes('Victoria') ||
+        v.name.includes('Karen') ||
+        v.name.includes('Moira') ||
+        v.name.includes('Google US English')
+    );
+    
+    if (femaleVoice) {
+        utterance.voice = femaleVoice;
+    }
+    
+    window.speechSynthesis.speak(utterance);
+}
 
 async function sendQuestion() {
     const query = els.chatInput.value.trim();
@@ -100,12 +221,22 @@ async function sendQuestion() {
         
         const loadingEl = document.getElementById(loadingId);
         if (res.ok) {
+            // Escape text for onclick handler
+            const safeAnswer = data.answer.replace(/"/g, '&quot;').replace(/'/g, "\\'");
+            
             loadingEl.querySelector('.message-content').innerHTML = `
                 ${data.answer}
+                <div class="message-actions">
+                    <button class="btn-play-dictation" onclick="speakText('${safeAnswer}')" title="Play Dictation">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                        Listen
+                    </button>
+                </div>
                 <div class="sources">
                     <strong>Sources:</strong> ${data.sources.map(s => `<a href="${s.link}" target="_blank" class="source-tag">${s.name}</a>`).join('')}
                 </div>
             `;
+            // Auto-play removed so it only starts when user clicks "Listen"
         } else {
             loadingEl.querySelector('.message-content').textContent = `Error: ${data.detail}`;
         }
