@@ -1,6 +1,7 @@
 import os
 import json
-from fastapi import APIRouter, HTTPException
+import uuid
+from fastapi import APIRouter, HTTPException, Request, Response, Depends
 from fastapi.responses import RedirectResponse, JSONResponse
 from pydantic import BaseModel
 
@@ -10,16 +11,26 @@ from connectors.google_drive import (
     get_drive_files,
     download_file,
     is_drive_connected,
+    get_user_email,
 )
 from processing.extractor import extract_text
 from processing.chunker import chunk_text
 from embedding.embedder import get_embeddings, get_single_embedding
 from search.vector_store import add_chunks, search, get_index_stats
 from llm.answer import generate_answer
-from config import PROCESSED_FILES_PATH, FAISS_INDEX_PATH
+from config import get_processed_files_path, get_faiss_index_path
+from context import user_id_ctx
 
 router = APIRouter()
 
+# ── Dependency for Multi-User ────────────────────────────────────────────────
+async def get_user_id(request: Request, response: Response):
+    user_id = request.cookies.get("hw_user_id")
+    if not user_id:
+        user_id = str(uuid.uuid4())
+        response.set_cookie(key="hw_user_id", value=user_id, max_age=86400 * 30)
+    user_id_ctx.set(user_id)
+    return user_id
 
 # ── Request/Response Models ───────────────────────────────────────────────────
 
@@ -30,18 +41,22 @@ class AskRequest(BaseModel):
 # ── Auth Routes ───────────────────────────────────────────────────────────────
 
 @router.get("/auth/login", tags=["Auth"])
-def auth_login():
+def auth_login(user_id: str = Depends(get_user_id)):
     """Redirect user to Google OAuth consent screen."""
     auth_url = get_auth_url()
-    return RedirectResponse(url=auth_url)
+    res = RedirectResponse(url=auth_url)
+    res.set_cookie(key="hw_user_id", value=user_id, max_age=86400 * 30)
+    return res
 
 
 @router.get("/auth/callback", tags=["Auth"])
-def auth_callback(code: str):
+def auth_callback(code: str, user_id: str = Depends(get_user_id)):
     """Handle Google OAuth callback and store tokens."""
     try:
         exchange_code_for_tokens(code)
-        return RedirectResponse(url="/")
+        res = RedirectResponse(url="/")
+        res.set_cookie(key="hw_user_id", value=user_id, max_age=86400 * 30)
+        return res
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"OAuth error: {str(e)}")
 
@@ -49,7 +64,7 @@ def auth_callback(code: str):
 # ── Sync Drive ────────────────────────────────────────────────────────────────
 
 @router.post("/sync-drive", tags=["Sync"])
-def sync_drive():
+def sync_drive(user_id: str = Depends(get_user_id)):
     """
     Fetch all PDF/Docs/TXT files from Google Drive, process them,
     and index them into FAISS. Supports incremental sync.
@@ -62,8 +77,8 @@ def sync_drive():
 
     # Load incremental sync manifest
     processed_files: dict = {}
-    if os.path.exists(PROCESSED_FILES_PATH):
-        with open(PROCESSED_FILES_PATH, "r") as f:
+    if os.path.exists(get_processed_files_path()):
+        with open(get_processed_files_path(), "r") as f:
             processed_files = json.load(f)
 
     # Fetch all eligible files from Drive
@@ -123,7 +138,7 @@ def sync_drive():
             continue
 
     # Save updated manifest
-    with open(PROCESSED_FILES_PATH, "w") as f:
+    with open(get_processed_files_path(), "w") as f:
         json.dump(processed_files, f, indent=2)
 
     return {
@@ -138,11 +153,11 @@ def sync_drive():
 # ── Ask Question ──────────────────────────────────────────────────────────────
 
 @router.post("/ask", tags=["RAG"])
-def ask_question(body: AskRequest):
+def ask_question(body: AskRequest, user_id: str = Depends(get_user_id)):
     """
     Answer a natural language question using RAG over indexed documents.
     """
-    if not os.path.exists(FAISS_INDEX_PATH):
+    if not os.path.exists(get_faiss_index_path()):
         raise HTTPException(
             status_code=400,
             detail="No documents indexed yet. Please call POST /sync-drive first.",
@@ -171,10 +186,11 @@ def ask_question(body: AskRequest):
 # ── Status ────────────────────────────────────────────────────────────────────
 
 @router.get("/status", tags=["Health"])
-def status():
+def status(user_id: str = Depends(get_user_id)):
     """Return current system status — auth, index stats."""
     stats = get_index_stats()
     return {
         **stats,
         "drive_connected": is_drive_connected(),
+        "user_email": get_user_email(),
     }
