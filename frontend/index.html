@@ -60,12 +60,54 @@
 
                 <div class="card demo-section" id="demo-section">
                     <h3>Demo Resources</h3>
-                    <p style="font-size: 0.8rem; margin-bottom: 8px;">Download and upload to your Drive, then sync to test these exact questions:</p>
-                    <ul style="font-size: 0.8rem; padding-left: 1rem; color: var(--text-muted); line-height: 1.6;">
-                        <li><a href="/demo_docs/company_refund_policy.txt" target="_blank">Refund Policy.txt</a><br><i>Q: "What is our refund policy?"</i></li>
-                        <li><a href="/demo_docs/it_security_sop.txt" target="_blank">IT Security SOP.txt</a><br><i>Q: "Summarize IT security SOP"</i></li>
-                        <li><a href="/demo_docs/compliance_guidelines.txt" target="_blank">Compliance.txt</a><br><i>Q: "What are the compliance guidelines?"</i></li>
-                    </ul>
+                    <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-muted);">Download files, upload to Drive, and sync to test:</p>
+                    
+                    <div class="demo-docs-list">
+                        <!-- Doc 1 -->
+                        <div class="demo-doc-item">
+                            <div class="demo-doc-header">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span>Refund Policy</span>
+                                <a href="/demo_docs/company_refund_policy.txt" download="Refund_Policy.txt" class="btn-download" title="Download">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </a>
+                            </div>
+                            <div class="demo-doc-questions">
+                                <div class="q-pill" onclick="fillQuestion('What is our refund policy?')">"What is our refund policy?"</div>
+                                <div class="q-pill" onclick="fillQuestion('How many days do I have to return an item?')">"How many days to return?"</div>
+                            </div>
+                        </div>
+
+                        <!-- Doc 2 -->
+                        <div class="demo-doc-item">
+                            <div class="demo-doc-header">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span>IT Security SOP</span>
+                                <a href="/demo_docs/it_security_sop.txt" download="IT_Security_SOP.txt" class="btn-download" title="Download">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </a>
+                            </div>
+                            <div class="demo-doc-questions">
+                                <div class="q-pill" onclick="fillQuestion('Summarize IT security SOP')">"Summarize IT security SOP"</div>
+                                <div class="q-pill" onclick="fillQuestion('What are the password requirements?')">"What are password rules?"</div>
+                            </div>
+                        </div>
+
+                        <!-- Doc 3 -->
+                        <div class="demo-doc-item">
+                            <div class="demo-doc-header">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span>Compliance Guide</span>
+                                <a href="/demo_docs/compliance_guidelines.txt" download="Compliance_Guidelines.txt" class="btn-download" title="Download">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                </a>
+                            </div>
+                            <div class="demo-doc-questions">
+                                <div class="q-pill" onclick="fillQuestion('What are the compliance guidelines?')">"What are the compliance guidelines?"</div>
+                                <div class="q-pill" onclick="fillQuestion('Who is responsible for compliance?')">"Who manages compliance?"</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </aside>
 

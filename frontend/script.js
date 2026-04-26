@@ -133,6 +133,11 @@ els.promptBtns.forEach(btn => {
     });
 });
 
+window.fillQuestion = function(q) {
+    els.chatInput.value = q;
+    els.chatInput.focus();
+};
+
 // Mic Toggle
 els.btnMic.addEventListener("click", () => {
     if (!recognition) return;
