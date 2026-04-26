@@ -21,11 +21,26 @@ DOWNLOAD_DIR = os.getenv("DOWNLOAD_DIR", "./downloads")
 os.makedirs(STORAGE_DIR, exist_ok=True)
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
 
-# ── Derived paths ─────────────────────────────────────────────────────────────
-FAISS_INDEX_PATH = os.path.join(STORAGE_DIR, "faiss_index.bin")
-METADATA_PATH = os.path.join(STORAGE_DIR, "faiss_metadata.json")
-TOKENS_PATH = os.path.join(STORAGE_DIR, "tokens.json")
-PROCESSED_FILES_PATH = os.path.join(STORAGE_DIR, "processed_files.json")
+from context import user_id_ctx
+
+def get_user_dir() -> str:
+    user_id = user_id_ctx.get()
+    user_dir = os.path.join(STORAGE_DIR, user_id)
+    os.makedirs(user_dir, exist_ok=True)
+    return user_dir
+
+def get_faiss_index_path() -> str:
+    return os.path.join(get_user_dir(), "faiss_index.bin")
+
+def get_metadata_path() -> str:
+    return os.path.join(get_user_dir(), "faiss_metadata.json")
+
+def get_tokens_path() -> str:
+    return os.path.join(get_user_dir(), "tokens.json")
+
+def get_processed_files_path() -> str:
+    return os.path.join(get_user_dir(), "processed_files.json")
+
 
 # ── Google OAuth Scopes ───────────────────────────────────────────────────────
 SCOPES = [
