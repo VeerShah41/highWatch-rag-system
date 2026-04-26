@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000";
+const API_URL = "";
 
 const els = {
     btnConnect: document.getElementById("btn-connect"),
@@ -221,13 +221,10 @@ async function sendQuestion() {
         
         const loadingEl = document.getElementById(loadingId);
         if (res.ok) {
-            // Escape text for onclick handler
-            const safeAnswer = data.answer.replace(/"/g, '&quot;').replace(/'/g, "\\'");
-            
             loadingEl.querySelector('.message-content').innerHTML = `
                 ${data.answer}
                 <div class="message-actions">
-                    <button class="btn-play-dictation" onclick="speakText('${safeAnswer}')" title="Play Dictation">
+                    <button class="btn-play-dictation" title="Play Dictation">
                         <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
                         Listen
                     </button>
@@ -236,7 +233,11 @@ async function sendQuestion() {
                     <strong>Sources:</strong> ${data.sources.map(s => `<a href="${s.link}" target="_blank" class="source-tag">${s.name}</a>`).join('')}
                 </div>
             `;
-            // Auto-play removed so it only starts when user clicks "Listen"
+            // Attach event listener instead of using inline onclick to prevent escaping bugs
+            const playBtn = loadingEl.querySelector('.btn-play-dictation');
+            playBtn.addEventListener('click', () => {
+                speakText(data.answer);
+            });
         } else {
             loadingEl.querySelector('.message-content').textContent = `Error: ${data.detail}`;
         }

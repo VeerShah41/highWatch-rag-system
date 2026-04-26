@@ -32,6 +32,10 @@ import os
 os.makedirs("frontend", exist_ok=True)
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
+# Serve demo docs
+os.makedirs("demo_docs", exist_ok=True)
+app.mount("/demo_docs", StaticFiles(directory="demo_docs"), name="demo_docs")
+
 @app.get("/", tags=["Frontend"])
 def serve_frontend():
     return FileResponse("frontend/index.html")
