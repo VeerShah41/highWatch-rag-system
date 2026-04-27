@@ -10,6 +10,15 @@
     --error: #EF4444;
 }
 
+body.dark {
+    --bg-main: #0F172A;
+    --bg-card: #1E293B;
+    --text-main: #F1F5F9;
+    --text-muted: #94A3B8;
+    --border: #334155;
+    --success: #34D399;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -43,6 +52,12 @@ header {
     margin-bottom: 2rem;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -60,12 +75,13 @@ header {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: white;
+    background: var(--bg-card);
     padding: 8px 16px;
     border-radius: 20px;
     font-size: 0.875rem;
     font-weight: 500;
     border: 1px solid var(--border);
+    color: var(--text-main);
 }
 
 .dot {
@@ -137,11 +153,16 @@ header {
 .btn.primary:not(:disabled):hover { background-color: var(--primary-hover); }
 
 .btn.secondary {
-    background-color: white;
+    background-color: var(--bg-card);
     color: var(--text-main);
     border: 1px solid var(--border);
 }
-.btn.secondary:not(:disabled):hover { background-color: #F9FAFB; }
+.btn.secondary:not(:disabled):hover { background-color: var(--bg-main); }
+
+body.dark .btn.secondary:disabled {
+    background-color: #334155;
+    color: #64748B;
+}
 
 .status-text {
     font-size: 0.875rem;
@@ -150,8 +171,29 @@ header {
     color: var(--text-muted);
 }
 
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.custom-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-main);
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.custom-input:focus {
+    border-color: var(--primary);
+}
+
 .metrics {
-    background: #F8FAFC;
+    background: var(--bg-main);
+    opacity: 0.9;
 }
 .metrics h3 {
     font-size: 0.875rem;
@@ -221,7 +263,7 @@ header {
 }
 
 .message.assistant .message-content {
-    background-color: #F3F4F6;
+    background-color: var(--bg-main);
     color: var(--text-main);
     border: 1px solid var(--border);
     border-bottom-left-radius: 4px;
@@ -273,9 +315,9 @@ header {
 }
 
 .prompt-btn {
-    background: #EEF2FF;
+    background: var(--bg-card);
     color: var(--primary);
-    border: 1px solid #C7D2FE;
+    border: 1px solid var(--primary);
     padding: 6px 12px;
     border-radius: 16px;
     font-size: 0.85rem;
@@ -302,7 +344,7 @@ header {
     align-items: center;
     border: 1px solid var(--border);
     border-radius: 8px;
-    background: white;
+    background: var(--bg-card);
     transition: all 0.2s;
     padding: 0 8px;
 }
@@ -371,7 +413,7 @@ header {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: white;
+    background: var(--bg-card);
     border: 1px solid var(--border);
     color: var(--text-main);
     padding: 4px 10px;
@@ -416,7 +458,7 @@ header {
     gap: 12px;
 }
 .demo-doc-item {
-    background: #F8FAFC;
+    background: var(--bg-main);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 12px;
@@ -454,8 +496,8 @@ header {
     gap: 6px;
 }
 .q-pill {
-    background: white;
-    border: 1px solid #E2E8F0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     padding: 6px 10px;
     border-radius: 6px;
     font-size: 0.75rem;

@@ -98,3 +98,40 @@ def generate_answer(query: str, context_chunks: list[dict]) -> dict:
         "sources": sources,
         "chunks_used": len(context_chunks),
     }
+
+
+def generate_recommendations(sample_chunks: list[str]) -> list[str]:
+    """Generate 3 suggested questions based on document content."""
+    if not sample_chunks:
+        return [
+            "What is our refund policy?",
+            "Summarize IT security SOP",
+            "What are the compliance guidelines?"
+        ]
+
+    context_str = "\n\n".join(sample_chunks)
+    prompt = f"""Based on the following snippets from a user's personal documents, suggest 3 natural language questions that the user might want to ask. 
+Keep the questions short, diverse, and relevant to the content.
+Return ONLY the questions, one per line, without numbers or bullets.
+
+Document Snippets:
+---
+{context_str}
+---
+
+Suggested Questions:"""
+
+    try:
+        if LLM_PROVIDER == "gemini":
+            raw_output = _call_gemini(prompt)
+        else:
+            raw_output = _call_groq(prompt)
+        
+        questions = [q.strip() for q in raw_output.split("\n") if q.strip()][:3]
+        return questions
+    except Exception:
+        return [
+            "What is our refund policy?",
+            "Summarize IT security SOP",
+            "What are the compliance guidelines?"
+        ]

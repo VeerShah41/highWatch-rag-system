@@ -16,8 +16,8 @@ from connectors.google_drive import (
 from processing.extractor import extract_text
 from processing.chunker import chunk_text
 from embedding.embedder import get_embeddings, get_single_embedding
-from search.vector_store import add_chunks, search, get_index_stats
-from llm.answer import generate_answer
+from search.vector_store import add_chunks, search, get_index_stats, get_sample_chunks
+from llm.answer import generate_answer, generate_recommendations
 from config import get_processed_files_path, get_faiss_index_path
 from context import user_id_ctx
 
@@ -36,6 +36,10 @@ async def get_user_id(request: Request, response: Response):
 
 class AskRequest(BaseModel):
     query: str
+
+
+class SyncRequest(BaseModel):
+    folder_id: str | None = None
 
 
 # ── Auth Routes ───────────────────────────────────────────────────────────────
@@ -64,10 +68,10 @@ def auth_callback(code: str, user_id: str = Depends(get_user_id)):
 # ── Sync Drive ────────────────────────────────────────────────────────────────
 
 @router.post("/sync-drive", tags=["Sync"])
-def sync_drive(user_id: str = Depends(get_user_id)):
+def sync_drive(body: SyncRequest = SyncRequest(), user_id: str = Depends(get_user_id)):
     """
-    Fetch all PDF/Docs/TXT files from Google Drive, process them,
-    and index them into FAISS. Supports incremental sync.
+    Fetch PDF/TXT files from Google Drive (optionally from a specific folder), 
+    process them, and index them into FAISS. Supports incremental sync.
     """
     if not is_drive_connected():
         raise HTTPException(
@@ -83,7 +87,7 @@ def sync_drive(user_id: str = Depends(get_user_id)):
 
     # Fetch all eligible files from Drive
     try:
-        drive_files = get_drive_files()
+        drive_files = get_drive_files(folder_id=body.folder_id)
     except Exception as e:
         raise HTTPException(status_code=503, detail=f"Google Drive error: {str(e)}")
 
@@ -181,6 +185,25 @@ def ask_question(body: AskRequest, user_id: str = Depends(get_user_id)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"RAG error: {str(e)}")
+
+
+@router.get("/recommend-questions", tags=["RAG"])
+def recommend_questions(user_id: str = Depends(get_user_id)):
+    """
+    Generate 3 suggested questions grounded in the indexed document context.
+    """
+    try:
+        # Get a few sample chunks for context
+        samples = get_sample_chunks(n=5)
+        questions = generate_recommendations(samples)
+        return {"questions": questions}
+    except Exception as e:
+        # Return defaults on failure
+        return {"questions": [
+            "What is our refund policy?",
+            "Summarize IT security SOP",
+            "What are the compliance guidelines?"
+        ]}
 
 
 # ── Status ────────────────────────────────────────────────────────────────────

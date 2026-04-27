@@ -18,11 +18,16 @@ const els = {
     iconSpeakerOff: document.querySelector(".icon-speaker-off"),
     quickPrompts: document.getElementById("quick-prompts"),
     promptBtns: document.querySelectorAll(".prompt-btn"),
+    themeToggle: document.getElementById("theme-toggle"),
+    sunIcon: document.querySelector(".sun-icon"),
+    moonIcon: document.querySelector(".moon-icon"),
+    folderLinkInput: document.getElementById("folder-link"),
 };
 
-// ── Voice State ──
+// ── Voice & Theme State ──
 let voiceEnabled = true;
 let isRecording = false;
+let isDarkMode = localStorage.getItem("theme") === "dark";
 let recognition = null;
 let availableVoices = [];
 
@@ -98,6 +103,29 @@ async function checkStatus() {
     }
 }
 
+// ── Theme Logic ──
+function initTheme() {
+    if (isDarkMode) {
+        document.body.classList.add("dark");
+        els.sunIcon.style.display = "none";
+        els.moonIcon.style.display = "block";
+    }
+}
+
+els.themeToggle.addEventListener("click", () => {
+    isDarkMode = !isDarkMode;
+    document.body.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
+    
+    if (isDarkMode) {
+        els.sunIcon.style.display = "none";
+        els.moonIcon.style.display = "block";
+    } else {
+        els.sunIcon.style.display = "block";
+        els.moonIcon.style.display = "none";
+    }
+});
+
 // ── Event Listeners ──
 
 els.btnConnect.addEventListener("click", () => {
@@ -105,16 +133,36 @@ els.btnConnect.addEventListener("click", () => {
 });
 
 els.btnSync.addEventListener("click", async () => {
+    const folderLink = els.folderLinkInput.value.trim();
+    let folderId = null;
+    
+    if (folderLink) {
+        // Extract ID from Google Drive folder link
+        // Example: https://drive.google.com/drive/u/0/folders/1abc123...
+        const match = folderLink.match(/folders\/([a-zA-Z0-9_-]+)/);
+        if (match) {
+            folderId = match[1];
+        } else {
+            els.syncStatus.textContent = "❌ Invalid Drive folder link.";
+            return;
+        }
+    }
+
     els.btnSync.disabled = true;
     els.syncStatus.innerHTML = `<svg class="spinner" viewBox="25 25 50 50"><circle cx="50" cy="50" r="20" fill="none"></circle></svg> Syncing Drive...`;
     
     try {
-        const res = await fetch(`${API_URL}/sync-drive`, { method: "POST" });
+        const res = await fetch(`${API_URL}/sync-drive`, { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ folder_id: folderId })
+        });
         const data = await res.json();
         
         if (res.ok) {
             els.syncStatus.textContent = `✅ Synced ${data.files_processed} files (${data.total_new_chunks} chunks). Skipped ${data.files_skipped_unchanged}.`;
             checkStatus(); // Refresh stats
+            fetchRecommendations(); // Fetch new context-aware questions
         } else {
             els.syncStatus.textContent = `❌ Error: ${data.detail || "Failed to sync"}`;
         }
@@ -124,6 +172,31 @@ els.btnSync.addEventListener("click", async () => {
         els.btnSync.disabled = false;
     }
 });
+
+async function fetchRecommendations() {
+    try {
+        const res = await fetch(`${API_URL}/recommend-questions`);
+        if (!res.ok) return;
+        const data = await res.json();
+        
+        if (data.questions && data.questions.length > 0) {
+            els.quickPrompts.innerHTML = "";
+            data.questions.forEach(q => {
+                const btn = document.createElement("button");
+                btn.className = "prompt-btn";
+                btn.textContent = q;
+                btn.addEventListener("click", () => {
+                    els.chatInput.value = q;
+                    sendQuestion();
+                });
+                els.quickPrompts.appendChild(btn);
+            });
+            els.quickPrompts.style.display = "flex";
+        }
+    } catch (e) {
+        console.error("Failed to fetch recommendations", e);
+    }
+}
 
 // Quick Prompts
 els.promptBtns.forEach(btn => {
@@ -267,4 +340,6 @@ function appendMessage(role, text, sources = [], id = null) {
 }
 
 // Init
+initTheme();
 checkStatus();
+fetchRecommendations();

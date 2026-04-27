@@ -112,8 +112,8 @@ def get_user_email() -> str | None:
         return None
 
 
-def get_drive_files() -> list[dict]:
-    """List all PDF, Google Docs, and TXT files from the user's Drive."""
+def get_drive_files(folder_id: str = None) -> list[dict]:
+    """List all PDF and TXT files from the user's Drive or a specific folder."""
     creds = load_credentials()
     if not creds:
         raise ValueError("Not authenticated. Please visit /auth/login first.")
@@ -124,6 +124,9 @@ def get_drive_files() -> list[dict]:
         "mimeType='application/pdf' or "
         "mimeType='text/plain'"
     )
+    
+    if folder_id:
+        query = f"({query}) and '{folder_id}' in parents"
 
     results = []
     page_token = None

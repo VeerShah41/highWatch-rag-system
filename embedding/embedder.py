@@ -33,7 +33,7 @@ def get_embeddings(texts: list[str]) -> np.ndarray:
     model = _get_model()
     embeddings = model.encode(
         texts,
-        batch_size=8,
+        batch_size=32,
         show_progress_bar=False,
         convert_to_numpy=True,
         normalize_embeddings=True,  # Normalize for cosine similarity

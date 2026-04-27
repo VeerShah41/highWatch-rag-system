@@ -114,6 +114,17 @@ def get_index_stats() -> dict:
     }
 
 
+def get_sample_chunks(n: int = 5) -> list[str]:
+    """Retrieve up to n random/sample chunks to provide context for AI recommendations."""
+    metadata = _load_metadata()
+    if not metadata:
+        return []
+    
+    # Take up to n chunks
+    keys = list(metadata.keys())[:n]
+    return [metadata[k].get("chunk_text", "") for k in keys]
+
+
 def clear_index():
     """Delete the FAISS index and metadata (for fresh re-sync)."""
     if os.path.exists(get_faiss_index_path()):
