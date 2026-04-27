@@ -22,6 +22,9 @@ const els = {
     sunIcon: document.querySelector(".sun-icon"),
     moonIcon: document.querySelector(".moon-icon"),
     folderLinkInput: document.getElementById("folder-link"),
+    chatOverlay: document.getElementById("chat-overlay"),
+    btnDisconnect: document.getElementById("btn-disconnect"),
+    btnClear: document.getElementById("btn-clear"),
 };
 
 // ── Voice & Theme State ──
@@ -82,6 +85,9 @@ async function checkStatus() {
             els.btnConnect.innerHTML = "Reconnect Drive";
             els.btnConnect.classList.replace("primary", "secondary");
             els.btnSync.disabled = false;
+            els.btnDisconnect.disabled = false;
+        } else {
+            els.btnDisconnect.disabled = true;
         }
 
         // Update Index Stats
@@ -97,6 +103,10 @@ async function checkStatus() {
             els.btnMic.disabled = false;
             els.btnSpeaker.disabled = false;
             els.quickPrompts.style.display = "flex";
+            els.btnClear.disabled = false;
+            if (els.chatOverlay) els.chatOverlay.style.display = "none";
+        } else {
+            els.btnClear.disabled = true;
         }
     } catch (e) {
         console.error("Status check failed", e);
@@ -132,21 +142,62 @@ els.btnConnect.addEventListener("click", () => {
     window.location.href = `${API_URL}/auth/login`;
 });
 
-els.btnSync.addEventListener("click", async () => {
-    const folderLink = els.folderLinkInput.value.trim();
-    let folderId = null;
-    
-    if (folderLink) {
-        // Extract ID from Google Drive folder link
-        // Example: https://drive.google.com/drive/u/0/folders/1abc123...
-        const match = folderLink.match(/folders\/([a-zA-Z0-9_-]+)/);
-        if (match) {
-            folderId = match[1];
+els.btnDisconnect.addEventListener("click", async () => {
+    if(!confirm("Are you sure you want to disconnect Google Drive?")) return;
+    try {
+        const res = await fetch(`${API_URL}/disconnect`, { method: "POST" });
+        if(res.ok) {
+            alert("Drive disconnected.");
+            window.location.reload();
         } else {
-            els.syncStatus.textContent = "❌ Invalid Drive folder link.";
-            return;
+            alert("Failed to disconnect.");
         }
+    } catch(e) {
+        alert("Network Error.");
     }
+});
+
+els.btnClear.addEventListener("click", async () => {
+    if(!confirm("Are you sure you want to clear all synced FAISS data and downloads? This cannot be undone.")) return;
+    try {
+        const res = await fetch(`${API_URL}/clear-data`, { method: "POST" });
+        if(res.ok) {
+            alert("Synced data cleared!");
+            window.location.reload();
+        } else {
+            alert("Failed to clear data.");
+        }
+    } catch(e) {
+        alert("Network Error.");
+    }
+});
+
+    // Input listener for dynamic button enablement
+    els.folderLinkInput.addEventListener("input", (e) => {
+        const val = e.target.value.trim();
+        // If they enter a valid folder link, enable Sync (even if not connected)
+        if (val.match(/folders\/([a-zA-Z0-9_-]+)/)) {
+            els.btnSync.disabled = false;
+        } else {
+            // Revert to connection status
+            checkStatus();
+        }
+    });
+
+    els.btnSync.addEventListener("click", async () => {
+        const folderLink = els.folderLinkInput.value.trim();
+        let folderId = null;
+        
+        if (folderLink) {
+            // Extract ID from Google Drive folder link
+            const match = folderLink.match(/folders\/([a-zA-Z0-9_-]+)/);
+            if (match) {
+                folderId = match[1];
+            } else {
+                els.syncStatus.textContent = "❌ Invalid Drive folder link.";
+                return;
+            }
+        }
 
     els.btnSync.disabled = true;
     els.syncStatus.innerHTML = `<svg class="spinner" viewBox="25 25 50 50"><circle cx="50" cy="50" r="20" fill="none"></circle></svg> Syncing Drive...`;
@@ -161,6 +212,15 @@ els.btnSync.addEventListener("click", async () => {
         
         if (res.ok) {
             els.syncStatus.textContent = `✅ Synced ${data.files_processed} files (${data.total_new_chunks} chunks). Skipped ${data.files_skipped_unchanged}.`;
+            // Enable Chat UI after successful sync even if anonymous
+            els.chatInput.disabled = false;
+            els.btnSend.disabled = false;
+            els.btnMic.disabled = false;
+            els.btnSpeaker.disabled = false;
+            els.quickPrompts.style.display = "flex";
+            els.btnClear.disabled = false;
+            if (els.chatOverlay) els.chatOverlay.style.display = "none";
+            
             checkStatus(); // Refresh stats
             fetchRecommendations(); // Fetch new context-aware questions
         } else {

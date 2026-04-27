@@ -91,7 +91,14 @@ def generate_answer(query: str, context_chunks: list[dict]) -> dict:
         if fname not in sources_dict:
             sources_dict[fname] = chunk.get("doc_id", "")
             
-    sources = [{"name": name, "link": f"https://drive.google.com/file/d/{doc_id}/view" if doc_id else "#"} for name, doc_id in sources_dict.items()]
+    sources = []
+    for name, doc_id in sources_dict.items():
+        if not doc_id or "/" in doc_id or "\\" in doc_id:
+            # If doc_id is a local file path (from gdown), don't link to Drive
+            link = "#"
+        else:
+            link = f"https://drive.google.com/file/d/{doc_id}/view"
+        sources.append({"name": name, "link": link})
 
     return {
         "answer": answer,

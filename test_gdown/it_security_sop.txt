@@ -1,0 +1,105 @@
+HIGHWATCH AI — IT SECURITY STANDARD OPERATING PROCEDURE (SOP)
+Version 1.4 | Classification: Internal | Effective: March 2025
+================================================================
+
+1. PURPOSE
+-----------
+This SOP defines the information security standards that all Highwatch AI
+employees, contractors, and vendors must follow to protect company data,
+systems, and intellectual property.
+
+2. PASSWORD POLICY
+-------------------
+- Minimum password length: 12 characters
+- Must include: uppercase, lowercase, numbers, and special characters
+- Password must be changed every 90 days
+- Do NOT reuse the last 10 passwords
+- Use the company-approved password manager: LastPass Enterprise
+- Never share passwords via email, Slack, or any messaging tool
+- Multi-Factor Authentication (MFA) is MANDATORY for all company accounts
+
+3. DATA CLASSIFICATION
+-----------------------
+Level 1 — Public:
+  - Marketing materials, published blog posts, press releases
+  - Can be shared externally without approval
+
+Level 2 — Internal:
+  - Employee handbook, internal SOPs, meeting notes
+  - Can be shared within the company; not externally
+
+Level 3 — Confidential:
+  - Client data, financial records, product roadmaps, source code
+  - Requires manager approval to share; encryption required
+
+Level 4 — Restricted:
+  - Legal documents, M&A data, security credentials, PII
+  - Access restricted to specific roles; sharing requires CISO approval
+
+4. DEVICE SECURITY
+-------------------
+- All company laptops must have full-disk encryption enabled (FileVault/BitLocker)
+- Automatic screen lock after 5 minutes of inactivity
+- Anti-malware software must be installed and updated weekly
+- Never connect to public WiFi without a VPN
+- Report lost/stolen devices to it-security@highwatch.ai IMMEDIATELY
+- Personal devices may not be used to access Level 3/4 data
+
+5. ACCESS CONTROL
+------------------
+- Access to systems is granted on a need-to-know basis (Principle of Least Privilege)
+- New employee access is provisioned within 48 hours of joining
+- Access must be revoked within 24 hours of an employee's last working day
+- Annual access reviews are conducted every December
+- Privileged access (admin) requires written justification and CISO approval
+
+6. INCIDENT REPORTING
+----------------------
+What counts as a security incident:
+- Phishing emails received or clicked
+- Unauthorized access to company systems
+- Data leakage or accidental sharing of confidential info
+- Lost or stolen devices
+- Malware or ransomware detection
+
+How to report:
+1. Immediately notify it-security@highwatch.ai
+2. Do NOT attempt to fix the issue yourself
+3. Preserve all evidence (do not delete emails, logs)
+4. Complete the Incident Report Form in the IT portal within 2 hours
+5. Security team will respond within 1 hour during business hours
+
+7. ACCEPTABLE USE POLICY
+-------------------------
+Employees MAY use company systems for:
+- Performing job responsibilities
+- Approved business communication
+- Accessing authorized cloud tools (G Suite, Jira, Slack, GitHub)
+
+Employees MAY NOT use company systems for:
+- Personal social media or streaming
+- Downloading pirated software or media
+- Cryptocurrency mining
+- Accessing competitor systems
+- Any illegal activities
+
+8. VENDOR AND THIRD-PARTY ACCESS
+----------------------------------
+- All vendors must sign the Vendor Security Agreement before access is granted
+- Vendor access must be time-limited and logged
+- Vendors must adhere to the same standards as employees
+- Vendor access is reviewed quarterly
+
+9. BACKUP AND RECOVERY
+-----------------------
+- All production data is backed up daily to encrypted cloud storage
+- Backup retention: 90 days for daily, 1 year for monthly
+- Disaster recovery drills are conducted every 6 months
+- RTO (Recovery Time Objective): 4 hours
+- RPO (Recovery Point Objective): 24 hours
+
+================================================================
+Document Owner: Information Security Team (CISO Office)
+Contact: it-security@highwatch.ai
+Last Updated: March 1, 2025
+Next Review: September 2025

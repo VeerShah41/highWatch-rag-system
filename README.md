@@ -76,14 +76,18 @@ Your app is now live! Open your browser and go to:
 
 ## 📂 Testing with Demo Documents
 
-To test the system, I have provided some sample company documents in the `demo_docs/` folder inside this repository.
+To test the system without connecting your personal Drive, you can use our pre-configured public demo folder!
 
-**How to test:**
-1. Open your actual **Google Drive** in the browser.
-2. Drag and drop the 4 `.txt` files from the local `demo_docs/` folder into your Google Drive to upload them.
-3. Go to your local app at `http://localhost:8000`.
-4. Click the **"Connect Drive"** button and log in with the Google Account you just uploaded the files to.
-5. Click the **"Sync Now"** button. The app will fetch the documents from your Drive, chunk them, and store them in the local Vector Database (FAISS).
+**Anonymous Sync (Fastest Method):**
+1. Start the app and go to `http://localhost:8000`.
+2. Under "2. Sync Documents", paste the following link:
+   `https://drive.google.com/drive/folders/1ZP8lXDro7XL3Kfyg2avmDwlSOcAgabc-?usp=sharing`
+3. Click **"Sync Now"**. The app will securely download the 5 demo files and build your RAG index without requiring any Google login!
+
+**OAuth Sync (Testing personal docs):**
+1. Click **"Connect Drive"** and authenticate.
+2. Upload your own PDFs or TXTs to your Drive.
+3. Leave the folder link box empty and click **"Sync Now"**.
 
 ---
 

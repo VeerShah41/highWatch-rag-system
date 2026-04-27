@@ -115,13 +115,17 @@ def get_index_stats() -> dict:
 
 
 def get_sample_chunks(n: int = 5) -> list[str]:
-    """Retrieve up to n random/sample chunks to provide context for AI recommendations."""
+    """Retrieve up to n random chunks to provide context for dynamic AI recommendations."""
+    import random
     metadata = _load_metadata()
     if not metadata:
         return []
     
-    # Take up to n chunks
-    keys = list(metadata.keys())[:n]
+    # Take up to n random chunks
+    keys = list(metadata.keys())
+    if len(keys) > n:
+        keys = random.sample(keys, n)
+        
     return [metadata[k].get("chunk_text", "") for k in keys]
 
 

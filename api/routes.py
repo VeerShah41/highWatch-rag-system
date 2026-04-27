@@ -73,10 +73,11 @@ def sync_drive(body: SyncRequest = SyncRequest(), user_id: str = Depends(get_use
     Fetch PDF/TXT files from Google Drive (optionally from a specific folder), 
     process them, and index them into FAISS. Supports incremental sync.
     """
-    if not is_drive_connected():
+    # Bypass Auth if a public folder_id is provided
+    if not body.folder_id and not is_drive_connected():
         raise HTTPException(
             status_code=401,
-            detail="Not authenticated. Please visit /auth/login first.",
+            detail="Drive not connected. Please authenticate first or provide a public folder link."
         )
 
     # Load incremental sync manifest
@@ -85,11 +86,38 @@ def sync_drive(body: SyncRequest = SyncRequest(), user_id: str = Depends(get_use
         with open(get_processed_files_path(), "r") as f:
             processed_files = json.load(f)
 
-    # Fetch all eligible files from Drive
+    # Fetch files
     try:
-        drive_files = get_drive_files(folder_id=body.folder_id)
+        if body.folder_id and not is_drive_connected():
+            # Anonymous public folder download using gdown
+            import gdown
+            from config import DOWNLOAD_DIR
+            
+            folder_url = f"https://drive.google.com/drive/folders/{body.folder_id}"
+            out_dir = os.path.join(DOWNLOAD_DIR, body.folder_id)
+            os.makedirs(out_dir, exist_ok=True)
+            
+            # download_folder returns a list of downloaded file paths
+            downloaded_files = gdown.download_folder(url=folder_url, output=out_dir, quiet=True, use_cookies=False)
+            
+            if not downloaded_files:
+                raise HTTPException(status_code=400, detail="Folder is empty, invalid, or not publicly accessible.")
+                
+            drive_files = []
+            for filepath in downloaded_files:
+                if filepath.lower().endswith('.pdf') or filepath.lower().endswith('.txt'):
+                    drive_files.append({
+                        "id": filepath,  # Use local path as ID
+                        "name": os.path.basename(filepath),
+                        "mimeType": "application/pdf" if filepath.lower().endswith('.pdf') else "text/plain",
+                        "modifiedTime": "public_folder_sync"
+                    })
+        else:
+            # Normal authenticated fetch
+            drive_files = get_drive_files(folder_id=body.folder_id)
+            
     except Exception as e:
-        raise HTTPException(status_code=503, detail=f"Google Drive error: {str(e)}")
+        raise HTTPException(status_code=503, detail=f"Drive fetch error: {str(e)}")
 
     files_processed = []
     total_chunks = 0
@@ -110,8 +138,11 @@ def sync_drive(body: SyncRequest = SyncRequest(), user_id: str = Depends(get_use
         print(f"[Sync] Processing: {file_name}")
 
         try:
-            # 1. Download
-            local_path = download_file(file_id, file_name, mime_type)
+            # Download file (or use already downloaded path from gdown)
+            if os.path.exists(file_id):
+                local_path = file_id
+            else:
+                local_path = download_file(file_id, file_name, mime_type)
 
             # 2. Extract text
             text = extract_text(local_path, mime_type)
@@ -217,3 +248,41 @@ def status(user_id: str = Depends(get_user_id)):
         "drive_connected": is_drive_connected(),
         "user_email": get_user_email(),
     }
+
+
+# ── System Maintenance ────────────────────────────────────────────────────────
+
+@router.post("/disconnect", tags=["System"])
+def disconnect_drive(user_id: str = Depends(get_user_id)):
+    """Disconnect Google Drive by removing OAuth tokens."""
+    import os
+    from config import get_tokens_path
+    
+    if os.path.exists(get_tokens_path()):
+        os.remove(get_tokens_path())
+        
+    return {"status": "success", "message": "Drive disconnected successfully."}
+
+@router.post("/clear-data", tags=["System"])
+def clear_data(user_id: str = Depends(get_user_id)):
+    """Clear all indexed FAISS data and downloaded files."""
+    import shutil
+    import os
+    from config import STORAGE_DIR, DOWNLOAD_DIR
+    from search.vector_store import _load_index
+    
+    # We must reset the in-memory global FAISS index and metadata
+    import search.vector_store
+    search.vector_store.index = None
+    search.vector_store.metadata = {}
+    
+    # Clear storage and downloads directories
+    if os.path.exists(STORAGE_DIR):
+        shutil.rmtree(STORAGE_DIR)
+        os.makedirs(STORAGE_DIR, exist_ok=True)
+        
+    if os.path.exists(DOWNLOAD_DIR):
+        shutil.rmtree(DOWNLOAD_DIR)
+        os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+        
+    return {"status": "success", "message": "Synced data cleared successfully."}
