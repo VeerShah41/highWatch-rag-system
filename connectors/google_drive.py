@@ -122,7 +122,6 @@ def get_drive_files() -> list[dict]:
 
     query = (
         "mimeType='application/pdf' or "
-        "mimeType='application/vnd.google-apps.document' or "
         "mimeType='text/plain'"
     )
 

@@ -1,5 +1,9 @@
 import numpy as np
+import torch
 from sentence_transformers import SentenceTransformer
+
+# Limit threads to reduce memory footprint on Render
+torch.set_num_threads(1)
 
 # Load model once at module level (singleton — avoids reloading on every call)
 _MODEL_NAME = "all-MiniLM-L6-v2"
@@ -29,7 +33,7 @@ def get_embeddings(texts: list[str]) -> np.ndarray:
     model = _get_model()
     embeddings = model.encode(
         texts,
-        batch_size=32,
+        batch_size=8,
         show_progress_bar=False,
         convert_to_numpy=True,
         normalize_embeddings=True,  # Normalize for cosine similarity
