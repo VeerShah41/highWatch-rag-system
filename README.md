@@ -10,7 +10,7 @@
 Follow these steps exactly to run the project on your local machine.
 
 ### 1. Prerequisites
-- **Python 3.10+** installed on your system.
+- **Python 3.10+** installed on your local system.
 - A **Google Cloud Console** account (to get OAuth keys).
 - A **Groq API Key** (for fast, free LLM inference).
 
