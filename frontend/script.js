@@ -25,12 +25,13 @@ const els = {
     chatOverlay: document.getElementById("chat-overlay"),
     btnDisconnect: document.getElementById("btn-disconnect"),
     btnClear: document.getElementById("btn-clear"),
+    indexMetrics: document.getElementById("index-metrics"),
 };
 
 // ── Voice & Theme State ──
 let voiceEnabled = true;
 let isRecording = false;
-let isDarkMode = localStorage.getItem("theme") === "dark";
+let isDarkMode = localStorage.getItem("theme") !== "light"; // Default to dark
 let recognition = null;
 let availableVoices = [];
 
@@ -104,9 +105,11 @@ async function checkStatus() {
             els.btnSpeaker.disabled = false;
             els.quickPrompts.style.display = "flex";
             els.btnClear.disabled = false;
+            els.indexMetrics.style.display = "block";
             if (els.chatOverlay) els.chatOverlay.style.display = "none";
         } else {
             els.btnClear.disabled = true;
+            els.indexMetrics.style.display = "none";
         }
     } catch (e) {
         console.error("Status check failed", e);

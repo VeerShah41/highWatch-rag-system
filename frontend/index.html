@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
+<body class="dark">
     <div class="container">
         <!-- Header -->
         <header>
@@ -57,7 +57,7 @@
                     <div id="sync-status" class="status-text"></div>
                 </div>
 
-                <div class="card metrics" id="index-metrics">
+                <div class="card metrics" id="index-metrics" style="display: none;">
                     <h3>Index Stats</h3>
                     <div class="metric-row">
                         <span>Status:</span>
@@ -84,83 +84,84 @@
                         https://drive.google.com/drive/folders/1ZP8lXDro7XL3Kfyg2avmDwlSOcAgabc-?usp=sharing
                     </div>
                     
-                    <p style="font-size: 0.85rem; margin-bottom: 1rem; color: var(--text-muted);">Or download and upload to your Drive:</p>
-                    
-                    <div class="demo-docs-list">
-                        <!-- Doc 1 -->
-                        <div class="demo-doc-item">
-                            <div class="demo-doc-header">
-                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Refund Policy</span>
-                                <a href="/demo_docs/company_refund_policy.txt" download="Refund_Policy.txt" class="btn-download" title="Download">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                </a>
+                    <details class="demo-dropdown">
+                        <summary>View Demo Documents</summary>
+                        <div class="demo-docs-list" style="margin-top: 12px;">
+                            <!-- Doc 1 -->
+                            <div class="demo-doc-item">
+                                <div class="demo-doc-header">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>Refund Policy</span>
+                                    <a href="/demo_docs/company_refund_policy.txt" download="Refund_Policy.txt" class="btn-download" title="Download">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                                <div class="demo-doc-questions">
+                                    <div class="q-pill" onclick="fillQuestion('What is our refund policy?')">"What is our refund policy?"</div>
+                                    <div class="q-pill" onclick="fillQuestion('How many days do I have to return an item?')">"How many days to return?"</div>
+                                </div>
                             </div>
-                            <div class="demo-doc-questions">
-                                <div class="q-pill" onclick="fillQuestion('What is our refund policy?')">"What is our refund policy?"</div>
-                                <div class="q-pill" onclick="fillQuestion('How many days do I have to return an item?')">"How many days to return?"</div>
-                            </div>
-                        </div>
 
-                        <!-- Doc 2 -->
-                        <div class="demo-doc-item">
-                            <div class="demo-doc-header">
-                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>IT Security SOP</span>
-                                <a href="/demo_docs/it_security_sop.txt" download="IT_Security_SOP.txt" class="btn-download" title="Download">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                </a>
+                            <!-- Doc 2 -->
+                            <div class="demo-doc-item">
+                                <div class="demo-doc-header">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>IT Security SOP</span>
+                                    <a href="/demo_docs/it_security_sop.txt" download="IT_Security_SOP.txt" class="btn-download" title="Download">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                                <div class="demo-doc-questions">
+                                    <div class="q-pill" onclick="fillQuestion('Summarize IT security SOP')">"Summarize IT security SOP"</div>
+                                    <div class="q-pill" onclick="fillQuestion('What are the password requirements?')">"What are password rules?"</div>
+                                </div>
                             </div>
-                            <div class="demo-doc-questions">
-                                <div class="q-pill" onclick="fillQuestion('Summarize IT security SOP')">"Summarize IT security SOP"</div>
-                                <div class="q-pill" onclick="fillQuestion('What are the password requirements?')">"What are password rules?"</div>
-                            </div>
-                        </div>
 
-                        <!-- Doc 3 -->
-                        <div class="demo-doc-item">
-                            <div class="demo-doc-header">
-                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Compliance Guide</span>
-                                <a href="/demo_docs/compliance_guidelines.txt" download="Compliance_Guidelines.txt" class="btn-download" title="Download">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                </a>
+                            <!-- Doc 3 -->
+                            <div class="demo-doc-item">
+                                <div class="demo-doc-header">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>Compliance Guide</span>
+                                    <a href="/demo_docs/compliance_guidelines.txt" download="Compliance_Guidelines.txt" class="btn-download" title="Download">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                                <div class="demo-doc-questions">
+                                    <div class="q-pill" onclick="fillQuestion('What are the compliance guidelines?')">"What are the compliance guidelines?"</div>
+                                    <div class="q-pill" onclick="fillQuestion('Who is responsible for compliance?')">"Who manages compliance?"</div>
+                                </div>
                             </div>
-                            <div class="demo-doc-questions">
-                                <div class="q-pill" onclick="fillQuestion('What are the compliance guidelines?')">"What are the compliance guidelines?"</div>
-                                <div class="q-pill" onclick="fillQuestion('Who is responsible for compliance?')">"Who manages compliance?"</div>
+                            <!-- Doc 4 -->
+                            <div class="demo-doc-item">
+                                <div class="demo-doc-header">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>Employee Handbook</span>
+                                    <a href="/demo_docs/employee_handbook.txt" download="Employee_Handbook.txt" class="btn-download" title="Download">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                                <div class="demo-doc-questions">
+                                    <div class="q-pill" onclick="fillQuestion('What are the core values?')">"What are the core values?"</div>
+                                    <div class="q-pill" onclick="fillQuestion('What is the remote work policy?')">"What is the remote work policy?"</div>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Doc 4 -->
-                        <div class="demo-doc-item">
-                            <div class="demo-doc-header">
-                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Employee Handbook</span>
-                                <a href="/demo_docs/employee_handbook.txt" download="Employee_Handbook.txt" class="btn-download" title="Download">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                </a>
-                            </div>
-                            <div class="demo-doc-questions">
-                                <div class="q-pill" onclick="fillQuestion('What are the core values?')">"What are the core values?"</div>
-                                <div class="q-pill" onclick="fillQuestion('What is the remote work policy?')">"What is the remote work policy?"</div>
-                            </div>
-                        </div>
 
-                        <!-- Doc 5 -->
-                        <div class="demo-doc-item">
-                            <div class="demo-doc-header">
-                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                <span>Expense Report SOP</span>
-                                <a href="/demo_docs/expense_report_sop.txt" download="Expense_Report_SOP.txt" class="btn-download" title="Download">
-                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                                </a>
-                            </div>
-                            <div class="demo-doc-questions">
-                                <div class="q-pill" onclick="fillQuestion('How do I submit an expense report?')">"How do I submit an expense report?"</div>
-                                <div class="q-pill" onclick="fillQuestion('What expenses are eligible for reimbursement?')">"What expenses are eligible?"</div>
+                            <!-- Doc 5 -->
+                            <div class="demo-doc-item">
+                                <div class="demo-doc-header">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    <span>Expense Report SOP</span>
+                                    <a href="/demo_docs/expense_report_sop.txt" download="Expense_Report_SOP.txt" class="btn-download" title="Download">
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                    </a>
+                                </div>
+                                <div class="demo-doc-questions">
+                                    <div class="q-pill" onclick="fillQuestion('How do I submit an expense report?')">"How do I submit an expense report?"</div>
+                                    <div class="q-pill" onclick="fillQuestion('What expenses are eligible for reimbursement?')">"What expenses are eligible?"</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </details>
                 </div>
             </aside>
 
