@@ -99,6 +99,7 @@ async function checkStatus() {
             els.mChunks.textContent = data.total_chunks_indexed;
             
             // Enable chat and Layman features
+            // Enable chat and Layman features
             els.chatInput.disabled = false;
             els.btnSend.disabled = false;
             els.btnMic.disabled = false;
@@ -107,9 +108,42 @@ async function checkStatus() {
             els.btnClear.disabled = false;
             els.indexMetrics.style.display = "block";
             if (els.chatOverlay) els.chatOverlay.style.display = "none";
+            
+            // Render Fetched Documents List
+            const libraryDocs = document.getElementById("library-docs");
+            const libraryEmpty = document.getElementById("library-empty");
+            const fetchedDocsList = document.getElementById("fetched-docs-list");
+            
+            if (data.documents && data.documents.length > 0) {
+                if (libraryDocs) libraryDocs.style.display = "block";
+                if (libraryEmpty) libraryEmpty.style.display = "none";
+                if (fetchedDocsList) {
+                    fetchedDocsList.innerHTML = "";
+                    data.documents.forEach(doc => {
+                        const li = document.createElement("li");
+                        li.className = "doc-list-item";
+                        // If it's a URL/ID from gdown, we can just show the name. 
+                        // If we want a link, we need to decide what it links to. We'll just show the name.
+                        li.innerHTML = `
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--primary)" stroke-width="2" fill="none"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <span style="font-weight: 500;">${doc.file_name}</span>
+                            </div>
+                        `;
+                        fetchedDocsList.appendChild(li);
+                    });
+                }
+            } else {
+                if (libraryDocs) libraryDocs.style.display = "none";
+                if (libraryEmpty) libraryEmpty.style.display = "block";
+            }
         } else {
             els.btnClear.disabled = true;
             els.indexMetrics.style.display = "none";
+            const libraryDocs = document.getElementById("library-docs");
+            const libraryEmpty = document.getElementById("library-empty");
+            if (libraryDocs) libraryDocs.style.display = "none";
+            if (libraryEmpty) libraryEmpty.style.display = "block";
         }
     } catch (e) {
         console.error("Status check failed", e);
@@ -137,6 +171,23 @@ els.themeToggle.addEventListener("click", () => {
         els.sunIcon.style.display = "block";
         els.moonIcon.style.display = "none";
     }
+});
+
+// ── Tab Switching Logic ──
+const tabBtns = document.querySelectorAll('.nav-btn');
+const tabPanes = document.querySelectorAll('.tab-pane');
+
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanes.forEach(p => p.classList.remove('active'));
+        
+        // Add active class to clicked
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-tab');
+        document.getElementById(targetId).classList.add('active');
+    });
 });
 
 // ── Event Listeners ──
@@ -235,6 +286,43 @@ els.btnClear.addEventListener("click", async () => {
         els.btnSync.disabled = false;
     }
 });
+
+const btnSyncDemo = document.getElementById("btn-sync-demo");
+const demoSyncStatus = document.getElementById("demo-sync-status");
+
+if (btnSyncDemo) {
+    btnSyncDemo.addEventListener("click", async () => {
+        const demoFolderId = "1ZP8lXDro7XL3Kfyg2avmDwlSOcAgabc-";
+        
+        btnSyncDemo.disabled = true;
+        demoSyncStatus.innerHTML = `<svg class="spinner" viewBox="25 25 50 50"><circle cx="50" cy="50" r="20" fill="none"></circle></svg> Fetching Demo Documents...`;
+        
+        try {
+            const res = await fetch(`${API_URL}/sync-drive`, { 
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ folder_id: demoFolderId })
+            });
+            const data = await res.json();
+            
+            if (res.ok) {
+                demoSyncStatus.textContent = `✅ Successfully loaded and indexed ${data.files_processed} demo documents.`;
+                // Switch to Library tab to show results
+                const libTabBtn = document.querySelector('[data-tab="tab-library"]');
+                if (libTabBtn) libTabBtn.click();
+                
+                checkStatus(); // Refresh stats
+                fetchRecommendations(); // Fetch new context-aware questions
+            } else {
+                demoSyncStatus.textContent = `❌ Error: ${data.detail || "Failed to sync demo docs"}`;
+            }
+        } catch (e) {
+            demoSyncStatus.textContent = `❌ Network Error`;
+        } finally {
+            btnSyncDemo.disabled = false;
+        }
+    });
+}
 
 async function fetchRecommendations() {
     try {

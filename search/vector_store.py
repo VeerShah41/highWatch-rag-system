@@ -107,10 +107,22 @@ def get_index_stats() -> dict:
     """Return stats about the current FAISS index."""
     index = _load_index()
     metadata = _load_metadata()
+    
+    # Extract unique documents
+    documents = []
+    seen = set()
+    for v in metadata.values():
+        file_name = v.get("file_name")
+        doc_id = v.get("doc_id")
+        if file_name and file_name not in seen:
+            seen.add(file_name)
+            documents.append({"file_name": file_name, "doc_id": doc_id})
+            
     return {
         "faiss_index_exists": index is not None,
         "total_chunks_indexed": index.ntotal if index else 0,
-        "unique_documents": len(set(v.get("file_name") for v in metadata.values())),
+        "unique_documents": len(documents),
+        "documents": documents
     }
 
 
