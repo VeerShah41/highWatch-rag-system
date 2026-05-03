@@ -9,6 +9,6 @@ services:
     env_file:
       - .env
     volumes:
-      - ./storage:/app/storage       # Persist FAISS index between restarts
+      - ./storage:/app/storage       # Persist FAISS index and metadata between restarts
       - ./downloads:/app/downloads   # Persist downloaded Drive files
     restart: unless-stopped
